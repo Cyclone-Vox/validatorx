@@ -1,8 +1,8 @@
 package validatorx
 
 import (
-	ut `github.com/go-playground/universal-translator`
-	`github.com/go-playground/validator/v10`
+	ut "github.com/go-playground/universal-translator"
+	"github.com/go-playground/validator/v10"
 )
 
 func initTranslation(validate *validator.Validate, chinese ut.Translator) (err error) {
@@ -56,6 +56,20 @@ func initTranslation(validate *validator.Validate, chinese ut.Translator) (err e
 		},
 		func(ut ut.Translator, fe validator.FieldError) string {
 			t, _ := ut.T("sortby", fe.Field(), fe.Param())
+			return t
+		},
+	); nil != err {
+		return
+	}
+
+	if err = validate.RegisterTranslation(
+		"endswith_in",
+		chinese,
+		func(ut ut.Translator) error {
+			return ut.Add("endswith_in", "{0}字段的后缀必须是[{1}]中的一个", true)
+		},
+		func(ut ut.Translator, fe validator.FieldError) string {
+			t, _ := ut.T("endswith_in", fe.Field(), fe.Param())
 			return t
 		},
 	); nil != err {

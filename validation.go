@@ -44,6 +44,9 @@ func initValidation(validate *validator.Validate) (err error) {
 	if err = validate.RegisterValidation("id_card_15", checkIdCard15Len); nil != err {
 		return
 	}
+	if err = validate.RegisterValidation("endswith_in", checkEndsWithIn); nil != err {
+		return
+	}
 
 	return
 }
